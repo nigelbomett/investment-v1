@@ -1,8 +1,7 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import fs from 'fs-extra';
 import jwt from 'jsonwebtoken';
 import { Investment } from '../types';
-import { write } from 'fs';
 
 const router = express.Router();
 const dataPath = './data/investments.json';
@@ -17,7 +16,8 @@ const writeData = async (data:Investment[]) => {
     await fs.writeFile(dataPath,JSON.stringify(data,null,2));
 };
 
-const authenticateToken = (req: Request, res: Response, next: Function) => {
+
+const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['authorization'];
     if(!token) return res.sendStatus(401);
 
