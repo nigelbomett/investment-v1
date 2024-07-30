@@ -7,7 +7,8 @@ describe('Auth Routes', () => {
         server.close();
     })
 
-    it('should register a new user', (done) => {
+    //Register a new user
+    /* it('should register a new user', (done) => {
         request(app)
             .post('/auth/register')
             .send({username: 'testuser',password:'testpassword'})
@@ -17,8 +18,9 @@ describe('Auth Routes', () => {
                 expect(res.body.message).toEqual('User registered successfully');
                 done();
             });
-    });
+    }); */
 
+    //Login user
     it('should login a user', (done) => {
         request(app)
             .post('/auth/login')

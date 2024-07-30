@@ -18,5 +18,9 @@
   {
     "name": "saas",
     "amount": 1500
+  },
+  {
+    "name": "Test Investment",
+    "amount": 1000
   }
 ]
