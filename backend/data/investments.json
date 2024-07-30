@@ -1,0 +1,22 @@
+[
+  {
+    "name": "REIT",
+    "amount": 25
+  },
+  {
+    "name": "Bond",
+    "amount": "20000"
+  },
+  {
+    "name": "MMF",
+    "amount": "50"
+  },
+  {
+    "name": "nhif",
+    "amount": "32"
+  },
+  {
+    "name": "saas",
+    "amount": 1500
+  }
+]

@@ -1,7 +1,9 @@
-import { User } from './types'; // Adjust path as necessary
+import { User } from './index'; 
 
-declare module 'express-serve-static-core' {
-    interface Request {
-        user?: User;
+declare global {
+    namespace Express {
+        interface Request {
+            user?: User; 
+        }
     }
 }

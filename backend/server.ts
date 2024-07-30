@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 app.use('/investments', investmentRoutes);
 app.use('/auth',authRoutes);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
+
+export {app,server};

@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import fs from 'fs-extra';
 import jwt from 'jsonwebtoken';
-import { Investment } from '../types';
+import { Investment, User } from '../types';
 
 
 const router = express.Router();
@@ -26,7 +26,7 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
 
     jwt.verify(token,secretKey, (err,user) => {
         if(err) return res.sendStatus(403);
-        req.user = user;
+        req.user = user as User;
         next();
     });
 };
