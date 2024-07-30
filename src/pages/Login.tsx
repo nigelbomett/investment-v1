@@ -1,71 +1,64 @@
-import { Button, Container, Group, PasswordInput, TextInput, Title } from '@mantine/core';
-import { hasLength,isNotEmpty, useForm } from '@mantine/form';
+import React, { useState } from 'react';
 import axios from 'axios';
-import React, { useState } from 'react'
-import  {useNavigate}  from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { TextInput, PasswordInput, Button, Container, Paper, Title, Alert } from '@mantine/core';
 
 const Login: React.FC = () => {
-  const [credentials, setCredentials] = useState({username: '',password:''});
+    const [credentials, setCredentials] = useState({ username: '', password: '' });
+    const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
-  const navigate = useNavigate();
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setCredentials({ ...credentials, [name]: value });
+    };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name,value} = e.target;
-    setCredentials({...credentials,[name]: value});
-  }
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/auth/login', credentials);
+            localStorage.setItem('token', response.data.token);
+            navigate('/investments');
+        } catch (error) {
+            setError('Login failed. Please check your credentials and try again.');
+            console.error('Login failed', error);
+        }
+    };
 
-  const handleSubmit = async () => {
-    try {
-        const response = await axios.post('http://localhost:5173/auth/login',credentials);
-        localStorage.setItem('token',response.data.token);
-        navigate('/investments');
-    } catch (error) {
-        console.error('Login failed',error);
-    }
-  };
-
-
-    const form = useForm({
-        mode: 'uncontrolled',
-        initialValues: {
-            username: '',
-            password: '',
-        },
-
-        validate: {
-            username: hasLength({ min: 2, max: 10 }, 'Username must be 2-10 characters long'),
-            password: isNotEmpty('Enter your password'),
-        },
-    });
-
-  return (
-      <Container size="xs" mt="150">
-        <Title>Login</Title>
-          <form onSubmit={form.onSubmit(handleSubmit)}>
-              <TextInput
-                  label="Username"
-                  placeholder="Username"                  
-                  withAsterisk
-                  key={form.key('username')}
-                  {...form.getInputProps('username')}
-                  //onChange={handleChange}
-              />
-              <PasswordInput
-                  label="Password"
-                  placeholder="Password"
-                  withAsterisk
-                  mt="md"
-                  key={form.key('password')}
-                  {...form.getInputProps('password')}
-                  //onChange={handleChange}
-              />
-              <Group justify="flex-end" mt="md">
-                  <Button type="submit">Submit</Button>
-              </Group>
-          </form> 
-      </Container>
-  )
-}
+    return (
+        <Container size={420} my={40}>
+            <Title ta={'center'}>Login</Title>
+            {error && (
+                <Alert title="Error" color="red" mt="md">
+                    {error}
+                </Alert>
+            )}
+            <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+                <form onSubmit={handleSubmit}>
+                    <TextInput
+                        label="Username"
+                        placeholder="Your username"
+                        name="username"
+                        value={credentials.username}
+                        onChange={handleChange}
+                        required
+                    />
+                    <PasswordInput
+                        label="Password"
+                        placeholder="Your password"
+                        name="password"
+                        value={credentials.password}
+                        onChange={handleChange}
+                        required
+                        mt="md"
+                    />
+                    <Button fullWidth mt="xl" type="submit">
+                        Login
+                    </Button>
+                </form>
+            </Paper>
+        </Container>
+    );
+};
 
 export default Login;

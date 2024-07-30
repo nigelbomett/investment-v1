@@ -1,69 +1,58 @@
-import { Button, Group, NumberInput, TextInput } from '@mantine/core';
-import { hasLength, isInRange, useForm } from '@mantine/form';
+import React, { useState } from 'react';
 import axios from 'axios';
-import React, { useState } from 'react'
+import { Button, TextInput, NumberInput, Box } from '@mantine/core';
 
 interface InvestmentFormProps {
     refreshInvestments: () => void;
 }
 
-
-
-const InvestmentForm: React.FC<InvestmentFormProps> = ({refreshInvestments}) => {
-    const [investment, setInvestment] = useState({name:'',amount:0 || '0'});
+const InvestmentForm: React.FC<InvestmentFormProps> = ({ refreshInvestments }) => {
+    const [investment, setInvestment] = useState({ name: '', amount: 0 });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name,value} = e.target;
-        setInvestment({...investment,[name]:value});
+        const { name, value } = e.target;
+        setInvestment({ ...investment, [name]: value });
     };
-
-    const handleNumberChange = (value: number | string) => {
-        setInvestment({...investment,amount: value || 0 });
-    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await axios.post('http://localhost:5000/investments',investment);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        await axios.post('http://localhost:5000/investments', investment, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
         refreshInvestments();
-        setInvestment({name: '',amount: 0 || '0'});
+        setInvestment({ name: '', amount: 0 });
     };
 
-    const form = useForm({
-        mode: 'uncontrolled',
-        initialValues: {
-            name: '',
-            amount: 0,
-        },
+    return (
+        <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 300 }} mx="auto">
+            <TextInput
+                label="Investment Name"
+                placeholder="Investment Name"
+                value={investment.name}
+                onChange={handleChange}
+                name="name"
+                required
+            />
+            <NumberInput
+                label="Amount"
+                placeholder="Amount"
+                value={investment.amount}
+                onChange={(value) => setInvestment({ ...investment, amount: value ?? 0 })}
+                name="amount"
+                required
+                min={0}
+            />
+            <Button type="submit" mt="md">Add Investment</Button>
+        </Box>
+    );
+};
 
-        validate: {
-            name: hasLength({ min: 2 }, 'name must be more than 2 characters long'),
-            amount: isInRange({ min: 0 }, 'amount to be invested should be more than Ksh.5'), 
-        },
-    });
-
-  return (
-    <form onSubmit={handleSubmit}>
-          <TextInput
-              label="Investment Name"
-              placeholder="Investment Name"
-              withAsterisk
-              key={form.key('name')}
-              {...form.getInputProps('name')}
-              onChange={handleChange}
-          />
-          <NumberInput
-            label="Investment Amount"
-            placeholder='Amount'
-            withAsterisk
-            key={form.key('amount')}
-            {...form.getInputProps('amount')}
-            onChange={handleNumberChange}
-          />
-          <Group justify="flex-end" mt="md">
-              <Button type="submit">Add Submit</Button>
-          </Group>
-    </form>
-  )
-}
-
-export default InvestmentForm
+export default InvestmentForm;
