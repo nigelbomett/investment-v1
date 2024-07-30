@@ -1,8 +1,7 @@
-import { Request } from 'express';
+import { User } from './types'; // Adjust path as necessary
 
-declare module 'express' {
-    export interface Request {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        user?: any;
+declare module 'express-serve-static-core' {
+    interface Request {
+        user?: User;
     }
 }
