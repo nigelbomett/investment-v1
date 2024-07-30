@@ -5,8 +5,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
-const usersPath = './data/users.json';
-const secretKey = 'your_secret_key';
+const usersPath = './backend/data/users.json';
+const secretKey = 'your_secret_key'; //TODO: add to .envs
 
 const readUsers = async (): Promise<User[]> => {
     const data = await fs.readFile(usersPath, 'utf8');
@@ -34,7 +34,7 @@ router.post('/register',async(req:Request,res: Response) => {
     res.status(201).json({message: 'User registered successfully'});
 });
 
-router.post('/login',async (req:Request,res: Rresponse) => {
+router.post('/login',async (req:Request,res: Response) => {
     const {username, password} = req.body;
     const users = await readUsers();
 
