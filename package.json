@@ -7,6 +7,7 @@
     "test": "jest",
     "test:backend": "jest --config ./jest.backend.config.cjs --detectOpenHandles",
     "test:frontend": "jest --config ./jest.frontend.config.cjs --detectOpenHandles",
+    "test:selenium": "mocha ./tests/selenium/*.test.js",
     "start:react": "vite",
     "start:api": "tsx ./backend/server.ts",
     "build": "tsc -b && vite build",
@@ -35,6 +36,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1",
+    "selenium-webdriver": "^4.23.0",
     "ts-jest": "^29.2.3"
   },
   "devDependencies": {
