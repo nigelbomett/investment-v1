@@ -8,5 +8,7 @@ module.exports = {
         '^.+\\.(js|jsx)$': 'babel-jest',
     },
     transformIgnorePatterns: ['<rootDir>/node_modules/'],
-    setupFiles: ['<rootDir>/jest.setup.js'],
+    resetMocks: false,
+    setupFiles: ['<rootDir>/jest.setup.js','jest-localstorage-mock'],
+    
 };
