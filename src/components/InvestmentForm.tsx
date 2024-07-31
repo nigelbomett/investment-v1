@@ -16,7 +16,9 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ refreshInvestments }) =
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        
         const token = localStorage.getItem('token');
+
         if (!token) {
             throw new Error('No token found');
         }
@@ -32,7 +34,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ refreshInvestments }) =
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 300 }} mx="auto">
+        <Box component="form" onSubmit={handleSubmit}  mx="auto">
             <TextInput
                 label="Investment Name"
                 placeholder="Investment Name"
@@ -45,7 +47,7 @@ const InvestmentForm: React.FC<InvestmentFormProps> = ({ refreshInvestments }) =
                 label="Amount"
                 placeholder="Amount"
                 value={investment.amount}
-                onChange={(value) => setInvestment({ ...investment, amount: value ?? 0 })}
+                onChange={(value) => setInvestment({ ...investment, amount: parseFloat(value as string) })}
                 name="amount"
                 required
                 min={0}

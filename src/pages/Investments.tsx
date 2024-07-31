@@ -1,3 +1,4 @@
+import React from 'react';
 import InvestmentForm from '../components/InvestmentForm';
 import InvestmentList from '../components/InvestmentList';
 import { useState } from 'react';

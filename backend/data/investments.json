@@ -5,31 +5,19 @@
   },
   {
     "name": "Bond",
-    "amount": "20000"
+    "amount": 200
   },
   {
     "name": "MMF",
-    "amount": "50"
+    "amount": 50
   },
   {
     "name": "nhif",
-    "amount": "32"
+    "amount": 32
   },
   {
     "name": "saas",
     "amount": 1500
-  },
-  {
-    "name": "Test Investment",
-    "amount": 1000
-  },
-  {
-    "name": "Test Investment",
-    "amount": 1000
-  },
-  {
-    "name": "Test Investment",
-    "amount": 1000
   },
   {
     "name": "Test Investment",
