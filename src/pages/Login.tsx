@@ -20,14 +20,14 @@ const Login: React.FC = () => {
             localStorage.setItem('token', response.data.token);
             navigate('/investments');
         } catch (error) {
-            setError('Login failed. Please check your credentials and try again.');
+            setError('Login failed.Please check your credentials and try again.');
             console.error('Login failed', error);
         }
     };
 
     return (
         <Container size={420} my={40}>
-            <Title ta={'center'}>Login</Title>
+            <Title ta={'center'}>Welcome</Title>
             {error && (
                 <Alert title="Error" color="red" mt="md">
                     {error}
